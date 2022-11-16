@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { mainFont } from "./constants/fonts";
-import ResetStyle from "./ResetStyle";
+import ResetStyle from "./styles/ResetStyle";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Pages/Login/Login";
 
 export default function App() {
   return (
@@ -9,7 +10,7 @@ export default function App() {
       <ResetStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" />
+          <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </AppContainer>
