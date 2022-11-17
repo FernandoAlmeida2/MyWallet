@@ -7,6 +7,7 @@ import SignUp from "./Pages/SignUp/SignUp";
 import { useState } from "react";
 import { UserContext } from "./Contexts";
 import MyHistory from "./Pages/MyHistory/MyHistory";
+import NewData from "./Pages/NewData/NewData";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/" element={<Login setUser={setUser} />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/my-history" element={<MyHistory />} />
+            <Route path="/new-data/:type" element={<NewData />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>

@@ -33,11 +33,12 @@ export const HeaderStyle = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: ${(props) => props.isData ? "column" : "row"};
-  justify-content: ${(props) => props.isData ? "start" : "center"};
+  justify-content: ${(props) => props.isData ? "space-between" : "center"};
   align-items: ${(props) => props.isData ? "none" : "center"};
-  padding: 6vw 3.2vw 3.2vw 3.2vw;
+  padding: 0 3.2vw 4.5vw 3.2vw;
   gap: 6vw;
   margin-top: 3.5vw;
+  overflow-y: auto;
   p {
     font-size: 5.3vw;
     color: ${gray};
@@ -74,6 +75,7 @@ export const AddStyle = styled.div`
 export const HistElementStyle = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 6vw;
   
 `
 export const DataStyle = styled.div`
@@ -84,3 +86,7 @@ export const DataStyle = styled.div`
     color: #c6c6c6;
   }
 `;
+export const ResultStyle = styled.div`
+  font-size: 4.53vw;
+  font-weight: 700;
+`

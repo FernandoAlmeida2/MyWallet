@@ -15,6 +15,7 @@ import {
   DataStyle,
   ButtonsDiv,
   AddStyle,
+  ResultStyle,
 } from "./Styles";
 
 const { green, red } = COLORS;
@@ -34,7 +35,6 @@ export default function MyHistory() {
       .get(`${BASE_URL}/history`, config)
       .then((res) => {
         setHistory(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -43,7 +43,14 @@ export default function MyHistory() {
   }, [user]);
 
   if (historyData === null) return <SearchingData />;
-
+  const sum_Balance = historyData.reduce(
+    (previous, current) =>
+      current.type === "income"
+        ? previous + Number(current.amount)
+        : previous - Number(current.amount),
+    0
+  );
+  const dataExists = historyData.length !== 0;
   return (
     <HistoryStyle>
       <MainStyle>
@@ -51,27 +58,36 @@ export default function MyHistory() {
           <h1>Olá, {user.name}</h1>
           <img src={logout} alt="logout" onClick={() => navigate("/")} />
         </HeaderStyle>
-        <ContentStyle isData={historyData.length !== 0}>
-          {historyData.length === 0 && (
+        <ContentStyle isData={dataExists}>
+          <div>
+            {historyData.map((data) => (
+              <HistElementStyle key={data._id}>
+                <DataStyle color="black">
+                  <span>{data.date}</span> &nbsp;{data.description}
+                </DataStyle>
+                <DataStyle color={data.type === "income" ? green : red}>
+                  {Number(data.amount).toFixed(2).replace(".", ",")}
+                </DataStyle>
+              </HistElementStyle>
+            ))}
+          </div>
+          {dataExists ? (
+            <HistElementStyle>
+              <ResultStyle>SALDO</ResultStyle>
+              <DataStyle color={sum_Balance >= 0 ? green : red}>
+                {sum_Balance.toFixed(2).replace(".", ",")}
+              </DataStyle>
+            </HistElementStyle>
+          ) : (
             <p>
               Não há registros de
               <br />
               entrada ou saída
             </p>
           )}
-          {historyData.map((data) => (
-            <HistElementStyle key={data._id}>
-              <DataStyle color="black">
-                <span>{data.date}</span> &nbsp;{data.description}
-              </DataStyle>
-              <DataStyle color={data.type === "income" ? green : red}>
-                {data.amount.toFixed(2).replace(".", ",")}
-              </DataStyle>
-            </HistElementStyle>
-          ))}
         </ContentStyle>
         <ButtonsDiv>
-          <AddStyle>
+          <AddStyle onClick={() => navigate("/new-data/income")}>
             <ion-icon name="add-circle-outline"></ion-icon>
             <p>
               Nova
@@ -79,8 +95,8 @@ export default function MyHistory() {
               entrada
             </p>
           </AddStyle>
-          <AddStyle>
-            <ion-icon name="remove-circle-outline"></ion-icon>
+          <AddStyle onClick={() => navigate("/new-data/expense")}>
+            <ion-icon name="remove-circle-outline" ></ion-icon>
             <p>
               Nova
               <br />
