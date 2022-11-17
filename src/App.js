@@ -5,21 +5,23 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUp/SignUp";
 import { useState } from "react";
-import { TokenContext } from "./Contexts";
+import { UserContext } from "./Contexts";
+import MyHistory from "./Pages/MyHistory/MyHistory";
 
 export default function App() {
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
   return (
     <AppContainer>
-      <TokenContext.Provider value={token}>
+      <UserContext.Provider value={user}>
         <ResetStyle />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login setToken={setToken} />} />
+            <Route path="/" element={<Login setUser={setUser} />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/my-history" element={<MyHistory />} />
           </Routes>
         </BrowserRouter>
-      </TokenContext.Provider>
+      </UserContext.Provider>
     </AppContainer>
   );
 }

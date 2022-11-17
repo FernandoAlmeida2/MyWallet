@@ -3,11 +3,12 @@ import { useState } from "react";
 import axios from "axios";
 import { LogRegStyle, InputStyle, ButtonStyle, StyledLink } from "../../styles/CommonStyles";
 import { BASE_URL } from "../../constants/urls";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Login({ setToken }) {
+export default function Login({ setUser }) {
   const [isLoading, setLoading] = useState(false);
   const [loginBody, setLogin] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   function handleForm(e) {
     setLogin({ ...loginBody, [e.target.name]: e.target.value });
@@ -18,7 +19,8 @@ export default function Login({ setToken }) {
     try{
         const response = await axios.post(`${BASE_URL}/sign-in`, loginBody);
         setLoading(false);
-        setToken(response.data.token);
+        setUser(response.data.user);
+        navigate("/my-history");
     } catch(err){
         console.log(err.response.data);
         err.response.data.message && alert(err.response.data.message);
