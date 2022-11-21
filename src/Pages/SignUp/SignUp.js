@@ -1,6 +1,7 @@
 import { RotatingLines } from "react-loader-spinner";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   LogRegStyle,
   InputStyle,
@@ -11,6 +12,7 @@ import { BASE_URL } from "../../constants/urls";
 
 export default function SignUp() {
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [registerBody, setLogin] = useState({
     name: "",
     email: "",
@@ -27,6 +29,7 @@ export default function SignUp() {
     try {
       const response = await axios.post(`${BASE_URL}/sign-up`, registerBody);
       setLoading(false);
+      navigate("/");
       console.log(response.data);
     } catch (err) {
       console.log(err.response.data);
